@@ -15,15 +15,15 @@ expect
 ## The multiplicative inverse function, defined as x⁻¹ = 1/x.
 ##
 ## See [Wikipedia](https://en.wikipedia.org/wiki/Multiplicative_inverse) for more information.
-reciprocal : Num * -> Frac *
-reciprocal = \x -> 1 / (Num.toFrac x)
+reciprocal : Num * -> F64
+reciprocal = \x -> 1 / (Num.toF64 x)
 
 expect
     out = reciprocal 2
     out |> isApproxEq 0.5
 
 # ## logBase
-# logBase : Num *, Num * -> Frac *
+# logBase : Num *, Num * -> F64
 # logBase = \x,b -> x
 
 ## The natural logarithm function, the inverse of the [exp] function.
