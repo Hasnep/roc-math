@@ -32,4 +32,4 @@ allApproxEq = \xs, ys ->
     allEqual = (List.map2 xs ys isApproxEq |> List.all identity)
     sameLength && allEqual
 
-square = \x -> x |> Num.toFrac |> Num.pow 2
+square = \x -> x |> Num.toF64 |> Num.pow 2
