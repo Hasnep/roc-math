@@ -1,6 +1,6 @@
 interface Const
     exposes [pi, π, tau, τ, e, ℯ, goldenRatio, φ, sqrt2]
-    imports [Utils.{ isApproxEq }]
+    imports []
 
 ## The circle constant, defined as the ratio of a circle's diameter to the circle's circumference.
 ##
@@ -10,7 +10,7 @@ pi = Num.pi
 
 expect
     out = Num.sin (pi / 2)
-    out |> isApproxEq 1.0
+    out |> Num.isApproxEq 1.0 {}
 
 ## An alias for [pi].
 π : F64
@@ -24,7 +24,7 @@ tau = Num.tau
 
 expect
     out = tau / 2
-    out |> isApproxEq pi
+    out |> Num.isApproxEq pi {}
 
 ## An alias for [tau].
 τ : F64
@@ -58,4 +58,4 @@ sqrt2 = Num.sqrt 2
 
 expect
     out = Num.pow sqrt2 2.0
-    out |> isApproxEq 2.0
+    out |> Num.isApproxEq 2.0 {}
