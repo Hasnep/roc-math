@@ -1,6 +1,7 @@
 package "Math"
     exposes [
         Math,
+        Arithmetic,
         Combinatorics,
         Complex,
         Const,
