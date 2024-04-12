@@ -1,6 +1,6 @@
 interface Trig
     exposes [sin, asin, cos, acos, tan, atan, sinh, cosh, tanh, coth, sech, csch]
-    imports [Math.{ exp }, Utils.{ isApproxEq }]
+    imports [Math.{ exp }]
 
 ## Trigonometric functions
 
@@ -16,7 +16,7 @@ sin = Num.sin
 
 # expect
 #     out = sinDeg 90.0
-#     out |> isApproxEq 1.0
+#     out |> Num.isApproxEq 1.0 {}
 
 ##
 asin : Frac a -> Frac a
@@ -34,7 +34,7 @@ cos = Num.cos
 
 # expect
 #     out = cosDeg 0.0
-#     out |> isApproxEq 1.0
+#     out |> Num.isApproxEq 1.0 {}
 
 ##
 acos : Frac a -> Frac a
@@ -52,7 +52,7 @@ tan = Num.tan
 
 # expect
 #     out = tanDeg 45
-#     out |> isApproxEq 1.0
+#     out |> Num.isApproxEq 1.0 {}
 
 ##
 atan : Frac a -> Frac a
@@ -68,7 +68,7 @@ sinh = \θ -> ((exp θ) - (exp (-θ))) / 2
 
 expect
     out = sinh (Num.log 2)
-    out |> isApproxEq (3 / 4)
+    out |> Num.isApproxEq (3 / 4) {}
 
 ## The hyperbolic cosine function.
 ##
@@ -78,7 +78,7 @@ cosh = \θ -> ((exp θ) + (exp (-θ))) / 2
 
 expect
     out = cosh (Num.log 2)
-    out |> isApproxEq (5 / 4)
+    out |> Num.isApproxEq (5 / 4) {}
 
 ## The hyperbolic tangent function.
 ##
@@ -88,7 +88,7 @@ tanh = \θ -> (exp (2.0 * θ) - 1) / (exp (2.0 * θ) + 1)
 
 expect
     out = tanh (Num.log 2)
-    out |> isApproxEq (3 / 5)
+    out |> Num.isApproxEq (3 / 5) {}
 
 ## The hyperbolic cotangent function.
 ##
@@ -98,7 +98,7 @@ coth = \θ -> 1 / (tanh θ)
 
 expect
     out = coth (Num.log 2)
-    out |> isApproxEq (5 / 3)
+    out |> Num.isApproxEq (5 / 3) {}
 
 ## The hyperbolic secant function.
 ##
@@ -108,7 +108,7 @@ sech = \θ -> 1 / (cosh θ)
 
 expect
     out = sech (Num.log 2)
-    out |> isApproxEq (4 / 5)
+    out |> Num.isApproxEq (4 / 5) {}
 
 ## The hyperbolic cosecant function.
 ##
@@ -118,7 +118,7 @@ csch = \θ -> 1 / (sinh θ)
 
 expect
     out = csch (Num.log 2)
-    out |> isApproxEq (4 / 3)
+    out |> Num.isApproxEq (4 / 3) {}
 
 # # Utils
 # radiansToDegrees : Num * -> F64

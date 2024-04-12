@@ -1,6 +1,6 @@
 interface Math
     exposes [exp, reciprocal, naturalLog, sigmoid, relu]
-    imports [Utils.{ isApproxEq }, Const]
+    imports [Const]
 
 ## The natural exponential function, the inverse of the [naturalLog] function.
 ##
@@ -10,7 +10,7 @@ exp = \x -> Num.pow Const.e x
 
 expect
     out = exp 0.0
-    out |> isApproxEq 1.0
+    out |> Num.isApproxEq 1.0 {}
 
 ## The multiplicative inverse function, defined as x⁻¹ = 1/x.
 ##
@@ -20,7 +20,7 @@ reciprocal = \x -> 1 / (Num.toF64 x)
 
 expect
     out = reciprocal 2
-    out |> isApproxEq 0.5
+    out |> Num.isApproxEq 0.5 {}
 
 # ## logBase
 # logBase : Num *, Num * -> F64

@@ -16,7 +16,7 @@ interface Complex
         arg,
         toPolar,
     ]
-    imports [Utils]
+    imports []
 
 ## A complex number z = x + yi, where i = √-1.
 Complex : { real : F64, imag : F64 }
@@ -37,7 +37,7 @@ fromReal = \real -> { real: Num.toF64 real, imag: 0.0 }
 
 expect
     out = fromReal 3
-    out |> isApproxEq { real: 3.0, imag: 0.0 }
+    (out.real |> Num.isApproxEq 3 {}) && (out.imag |> Num.isApproxEq 0 {})
 
 ## Convert a number y to a complex number z = 0 + yi.
 fromImag : Num * -> Complex
@@ -45,7 +45,7 @@ fromImag = \imag -> { real: 0.0, imag: Num.toF64 imag }
 
 expect
     out = fromImag 4
-    out |> isApproxEq { real: 0.0, imag: 4.0 }
+    (out.real |> Num.isApproxEq 0 {}) && (out.imag |> Num.isApproxEq 4.0 {})
 
 # Tuples
 
@@ -55,7 +55,7 @@ fromTuple = \(real, imag) -> { real: Num.toF64 real, imag: Num.toF64 imag }
 
 expect
     out = fromTuple (3, 4)
-    out |> isApproxEq { real: 3.0, imag: 4.0 }
+    (out.real |> Num.isApproxEq 3 {}) && (out.imag |> Num.isApproxEq 4 {})
 
 ## Convert a complex number z = x + yi to a tuple `(x, y)`. The inverse of [fromTuple].
 toTuple : Complex -> (F64, F64)
@@ -63,7 +63,7 @@ toTuple = \z -> (z.real, z.imag)
 
 expect
     (outReal, outImag) = toTuple { real: 3, imag: 4 }
-    (outReal |> Utils.isApproxEq 3) && (outImag |> Utils.isApproxEq 4)
+    (outReal |> Num.isApproxEq 3 {}) && (outImag |> Num.isApproxEq 4 {})
 
 # Arithmetic
 
@@ -73,7 +73,7 @@ add = \x, y -> { real: x.real + y.real, imag: x.imag + y.imag }
 
 expect
     out = add { real: 3, imag: 5 } { real: 1, imag: 2 }
-    out |> isApproxEq { real: 4, imag: 7 }
+    (out.real |> Num.isApproxEq 4 {}) && (out.imag |> Num.isApproxEq 7 {})
 
 ## Subtract one complex number from another.
 sub : Complex, Complex -> Complex
@@ -81,7 +81,7 @@ sub = \x, y -> { real: x.real - y.real, imag: x.imag - y.imag }
 
 expect
     out = sub { real: 3, imag: 5 } { real: 1, imag: 2 }
-    out |> isApproxEq { real: 2, imag: 3 }
+    (out.real |> Num.isApproxEq 2 {}) && (out.imag |> Num.isApproxEq 3 {})
 
 ## Multiply two complex numbers together.
 mul : Complex, Complex -> Complex
@@ -92,7 +92,7 @@ mul = \x, y -> {
 
 expect
     out = mul { real: 3, imag: 5 } { real: 1, imag: 2 }
-    out |> isApproxEq { real: -7, imag: 11 }
+    (out.real |> Num.isApproxEq -7 {}) && (out.imag |> Num.isApproxEq 11 {})
 
 ## Divide one complex number by another.
 div : Complex, Complex -> Complex
@@ -104,7 +104,7 @@ div = \w, z ->
 
 expect
     out = div { real: 3, imag: 5 } { real: 1, imag: 2 }
-    out |> isApproxEq { real: 13 / 5, imag: -1 / 5 }
+    (out.real |> Num.isApproxEq (13 / 5) {}) && (out.imag |> Num.isApproxEq (-1 / 5) {})
 
 ## The reciprocal of a non-zero complex number.
 reciprocal : Complex -> Complex
@@ -116,7 +116,7 @@ reciprocal = \z ->
 
 expect
     out = reciprocal { real: 3, imag: 5 }
-    out |> isApproxEq { real: (3 / 34), imag: (-5 / 34) }
+    (out.real |> Num.isApproxEq (3 / 34) {}) && (out.imag |> Num.isApproxEq (-5 / 34) {})
 
 # Polar
 
@@ -126,7 +126,7 @@ abs = \z -> Num.sqrt ((z.real ^ 2) + (z.imag ^ 2))
 
 expect
     out = abs { real: 3, imag: 4 }
-    out |> Utils.isApproxEq 5
+    out |> Num.isApproxEq 5 {}
 
 ## The argument of a complex number, the angle from the positive x-axis.
 arg : Complex -> F64
@@ -134,7 +134,7 @@ arg = \z -> 2.0 * Num.atan (z.imag / (z.real + (abs z)))
 
 expect
     out = arg { real: 3, imag: 4 }
-    out |> Utils.isApproxEq (Num.atan (4 / 3))
+    out |> Num.isApproxEq (Num.atan (4 / 3)) {}
 
 ## Convert a complex number to polar form.
 toPolar : Complex -> { r : F64, arg : F64 }
@@ -142,11 +142,4 @@ toPolar = \z -> { r: abs z, arg: arg z }
 
 expect
     out = toPolar { real: 3, imag: 4 }
-    (out.r |> Utils.isApproxEq 5) && (out.arg |> Utils.isApproxEq (Num.atan (4 / 3)))
-
-# Equality
-
-## Check if two non-zero complex numbers are approximately equal.
-isApproxEq : Complex, Complex -> Bool
-isApproxEq = \z1, z2 ->
-    (Utils.isApproxEq z1.real z2.real) && (Utils.isApproxEq z1.imag z2.imag)
+    (out.r |> Num.isApproxEq 5 {}) && (out.arg |> Num.isApproxEq (Num.atan (4 / 3)) {})

@@ -8,7 +8,7 @@ interface Stats
         standardDeviation,
         median,
     ]
-    imports [Utils.{ isApproxEq }, Utils]
+    imports [Utils]
 
 ## The arithmetic mean of a list `x` is defined as the sum of the elements of `x` divided by the number of elements in `x`.
 ## https://en.wikipedia.org/wiki/Mean#Arithmetic_mean_(AM)
@@ -20,7 +20,7 @@ mean = \x ->
 
 expect
     out = mean [1, 2, 3, 4]
-    out |> Result.map (\x -> x |> isApproxEq 2.5) |> Result.withDefault Bool.false
+    out |> Result.map (\x -> x |> Num.isApproxEq 2.5 {}) |> Result.withDefault Bool.false
 
 expect
     out = mean []
@@ -35,7 +35,7 @@ meanUnchecked = \x ->
 
 expect
     out = meanUnchecked [1, 2, 3, 4]
-    out |> isApproxEq 2.5
+    out |> Num.isApproxEq 2.5 {}
 
 expect
     out = meanUnchecked []
@@ -53,7 +53,7 @@ variance = \x ->
 
 expect
     out = variance [1, 2, 3]
-    out |> Result.map (\x -> x |> isApproxEq 1.0) |> Result.withDefault Bool.false
+    out |> Result.map (\x -> x |> Num.isApproxEq 1.0 {}) |> Result.withDefault Bool.false
 
 expect
     out = variance []
@@ -71,7 +71,7 @@ varianceWithMean = \x, mu ->
 
 expect
     out = varianceWithMean [1, 2, 3, 4] 2.5
-    out |> isApproxEq (5 / 3)
+    out |> Num.isApproxEq (5 / 3) {}
 
 ## A function that calculates both the [mean] and [variance] of a list at the same time.
 ## This is more efficient than calculating both values separately.
@@ -124,11 +124,11 @@ median = \x ->
 
 expect
     out = median [5, 4, 3, 2, 1]
-    out |> isApproxEq 3.0
+    out |> Num.isApproxEq 3.0 {}
 
 expect
     out = median [1, 2, 3, 4]
-    out |> isApproxEq 2.5
+    out |> Num.isApproxEq 2.5 {}
 
 ## The difference between the maximum and minimum values in a list.
 range : List (Num a) -> Result (Num a) [ListWasEmpty]
