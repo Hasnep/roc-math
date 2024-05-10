@@ -3,6 +3,7 @@ module [
     lcm,
     divides,
     divisors,
+    properDivisors,
     isPrime,
     primeFactors,
 ]
@@ -39,6 +40,8 @@ expect divides 3 9
 expect divides 3 10 |> Bool.not
 
 ## The positive [divisors](https://en.wikipedia.org/wiki/Divisor) of a positive integer `n` are all the positive numbers that divide `n` with no remainder, including `n` itself.
+##
+## To get the divisors of `n` excluding `n` itself, see [properDivisors].
 divisors : U64 -> List U64
 divisors = \n ->
     List.range { start: At 1, end: At n }
@@ -47,6 +50,18 @@ divisors = \n ->
 expect
     out = divisors 12
     out == [1, 2, 3, 4, 6, 12]
+
+## The [proper divisors](https://en.wikipedia.org/wiki/Divisor) of a positive integer `n` are all the positive numbers that divide `n` with no remainder, excluding `n` itself.
+##
+## To get the divisors of `n` including `n` itself, see [divisors].
+properDivisors : U64 -> List U64
+properDivisors = \n ->
+    List.range { start: At 1, end: Before n }
+    |> List.keepIf (\x -> divides (Num.toI64 x) (Num.toI64 n))
+
+expect
+    out = properDivisors 12
+    out == [1, 2, 3, 4, 6]
 
 isPrime : U64 -> Bool
 isPrime = \n -> divisors n == [1, n]
