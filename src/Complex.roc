@@ -14,6 +14,7 @@ module [
     abs,
     arg,
     toPolar,
+    isApproxEq,
 ]
 
 ## A complex number z = x + yi, where i = √-1.
@@ -23,27 +24,27 @@ Complex : { real : F64, imag : F64 }
 
 ## The imaginary unit.
 i : Complex
-i = { real: 0.0, imag: 1.0 }
+i = { real: 0, imag: 1 }
 
 ## The complex number z = 0 + 0i.
 zero : Complex
-zero = { real: 0.0, imag: 0.0 }
+zero = { real: 0, imag: 0 }
 
 ## Convert a number x to a complex number z = x + 0i.
 fromReal : Num * -> Complex
-fromReal = \real -> { real: Num.toF64 real, imag: 0.0 }
+fromReal = \real -> { real: Num.toF64 real, imag: 0 }
 
 expect
     out = fromReal 3
-    (out.real |> Num.isApproxEq 3 {}) && (out.imag |> Num.isApproxEq 0 {})
+    out |> isApproxEq { real: 3, imag: 0 } {}
 
 ## Convert a number y to a complex number z = 0 + yi.
 fromImag : Num * -> Complex
-fromImag = \imag -> { real: 0.0, imag: Num.toF64 imag }
+fromImag = \imag -> { real: 0, imag: Num.toF64 imag }
 
 expect
     out = fromImag 4
-    (out.real |> Num.isApproxEq 0 {}) && (out.imag |> Num.isApproxEq 4.0 {})
+    out |> isApproxEq { real: 0, imag: 4 } {}
 
 # Tuples
 
@@ -53,7 +54,7 @@ fromTuple = \(real, imag) -> { real: Num.toF64 real, imag: Num.toF64 imag }
 
 expect
     out = fromTuple (3, 4)
-    (out.real |> Num.isApproxEq 3 {}) && (out.imag |> Num.isApproxEq 4 {})
+    out |> isApproxEq { real: 3, imag: 4 } {}
 
 ## Convert a complex number z = x + yi to a tuple `(x, y)`. The inverse of [fromTuple].
 toTuple : Complex -> (F64, F64)
@@ -61,7 +62,7 @@ toTuple = \z -> (z.real, z.imag)
 
 expect
     (outReal, outImag) = toTuple { real: 3, imag: 4 }
-    (outReal |> Num.isApproxEq 3 {}) && (outImag |> Num.isApproxEq 4 {})
+    outReal |> Num.isApproxEq 3 {} && outImag |> Num.isApproxEq 4 {}
 
 # Arithmetic
 
@@ -71,7 +72,7 @@ add = \x, y -> { real: x.real + y.real, imag: x.imag + y.imag }
 
 expect
     out = add { real: 3, imag: 5 } { real: 1, imag: 2 }
-    (out.real |> Num.isApproxEq 4 {}) && (out.imag |> Num.isApproxEq 7 {})
+    out |> isApproxEq { real: 4, imag: 7 } {}
 
 ## Subtract one complex number from another.
 sub : Complex, Complex -> Complex
@@ -79,7 +80,7 @@ sub = \x, y -> { real: x.real - y.real, imag: x.imag - y.imag }
 
 expect
     out = sub { real: 3, imag: 5 } { real: 1, imag: 2 }
-    (out.real |> Num.isApproxEq 2 {}) && (out.imag |> Num.isApproxEq 3 {})
+    out |> isApproxEq { real: 2, imag: 3 } {}
 
 ## Multiply two complex numbers together.
 mul : Complex, Complex -> Complex
@@ -90,7 +91,7 @@ mul = \x, y -> {
 
 expect
     out = mul { real: 3, imag: 5 } { real: 1, imag: 2 }
-    (out.real |> Num.isApproxEq -7 {}) && (out.imag |> Num.isApproxEq 11 {})
+    out |> isApproxEq { real: -7, imag: 11 } {}
 
 ## Divide one complex number by another.
 div : Complex, Complex -> Complex
@@ -98,23 +99,21 @@ div = \w, z ->
     zAbsSquared = (z.real ^ 2) + (z.imag ^ 2)
     real = ((w.real * z.real) + (w.imag * z.imag)) / zAbsSquared
     imag = ((w.imag * z.real) - (w.real * z.imag)) / zAbsSquared
-    { real: real, imag: imag }
+    { real, imag }
 
 expect
     out = div { real: 3, imag: 5 } { real: 1, imag: 2 }
-    (out.real |> Num.isApproxEq (13 / 5) {}) && (out.imag |> Num.isApproxEq (-1 / 5) {})
+    out |> isApproxEq { real: 13 / 5, imag: -1 / 5 } {}
 
 ## The reciprocal of a non-zero complex number.
 reciprocal : Complex -> Complex
 reciprocal = \z ->
     zAbsSquared = (z.real ^ 2) + (z.imag ^ 2)
-    real = z.real / zAbsSquared
-    imag = -z.imag / zAbsSquared
-    { real: real, imag: imag }
+    { real: z.real / zAbsSquared, imag: -z.imag / zAbsSquared }
 
 expect
     out = reciprocal { real: 3, imag: 5 }
-    (out.real |> Num.isApproxEq (3 / 34) {}) && (out.imag |> Num.isApproxEq (-5 / 34) {})
+    out |> isApproxEq { real: 3 / 34, imag: -5 / 34 } {}
 
 # Polar
 
@@ -140,4 +139,10 @@ toPolar = \z -> { r: abs z, arg: arg z }
 
 expect
     out = toPolar { real: 3, imag: 4 }
-    (out.r |> Num.isApproxEq 5 {}) && (out.arg |> Num.isApproxEq (Num.atan (4 / 3)) {})
+    (out.r |> Num.isApproxEq 5 {})
+    && (out.arg |> Num.isApproxEq (Num.atan (4 / 3)) {})
+
+## Check if two complex numbers are approximately equal.
+isApproxEq : Complex, Complex, { rtol ? F64, atol ? F64 } -> Bool
+isApproxEq = \x, y, { rtol ? 0.00001, atol ? 0.00000001 } ->
+    (x.real |> Num.isApproxEq y.real { rtol, atol }) && (x.imag |> Num.isApproxEq y.imag { rtol, atol })
