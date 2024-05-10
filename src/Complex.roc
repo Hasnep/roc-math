@@ -1,22 +1,20 @@
-interface Complex
-    exposes [
-        Complex,
-        i,
-        zero,
-        fromReal,
-        fromImag,
-        fromTuple,
-        toTuple,
-        add,
-        sub,
-        mul,
-        div,
-        reciprocal,
-        abs,
-        arg,
-        toPolar,
-    ]
-    imports []
+module [
+    Complex,
+    i,
+    zero,
+    fromReal,
+    fromImag,
+    fromTuple,
+    toTuple,
+    add,
+    sub,
+    mul,
+    div,
+    reciprocal,
+    abs,
+    arg,
+    toPolar,
+]
 
 ## A complex number z = x + yi, where i = √-1.
 Complex : { real : F64, imag : F64 }

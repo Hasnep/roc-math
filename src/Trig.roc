@@ -1,6 +1,6 @@
-interface Trig
-    exposes [sin, asin, cos, acos, tan, atan, sinh, cosh, tanh, coth, sech, csch]
-    imports [Math.{ exp }]
+module [sin, asin, cos, acos, tan, atan, sinh, cosh, tanh, coth, sech, csch]
+
+import Math exposing [exp]
 
 ## Trigonometric functions
 

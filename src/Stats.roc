@@ -1,14 +1,14 @@
-interface Stats
-    exposes [
-        mean,
-        meanUnchecked,
-        variance,
-        varianceWithMean,
-        meanAndVariance,
-        standardDeviation,
-        median,
-    ]
-    imports [Utils]
+module [
+    mean,
+    meanUnchecked,
+    variance,
+    varianceWithMean,
+    meanAndVariance,
+    standardDeviation,
+    median,
+]
+
+import Utils
 
 ## The arithmetic mean of a list `x` is defined as the sum of the elements of `x` divided by the number of elements in `x`.
 ## https://en.wikipedia.org/wiki/Mean#Arithmetic_mean_(AM)

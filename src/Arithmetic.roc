@@ -1,9 +1,7 @@
-interface Arithmetic
-    exposes [
-        gcd,
-        # lcm, divides, divisors, isPrime, primeFactors,
-    ]
-    imports []
+module [
+    gcd,
+    # lcm, divides, divisors, isPrime, primeFactors,
+]
 
 ## The [greatest common divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor) of two positive integers `a` and `b` is the largest integer that divides both `a` and `b`.
 gcd : U64, U64 -> U64

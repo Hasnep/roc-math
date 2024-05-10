@@ -1,4 +1,4 @@
-interface Combinatorics exposes [factorial, choose] imports []
+module [factorial, choose]
 
 ## The [factorial](https://en.wikipedia.org/wiki/Factorial) of `n` is product of all the integers from 1 to `n`.
 factorial : U64 -> U64

@@ -1,11 +1,9 @@
-package "Math"
-    exposes [
-        Math,
-        Arithmetic,
-        Combinatorics,
-        Complex,
-        Const,
-        Stats,
-        Trig,
-    ]
-    packages {}
+package [
+    Math,
+    Arithmetic,
+    Combinatorics,
+    Complex,
+    Const,
+    Stats,
+    Trig,
+] {}

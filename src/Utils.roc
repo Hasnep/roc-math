@@ -1,6 +1,4 @@
-interface Utils
-    exposes [unwrap, square]
-    imports []
+module [unwrap, square]
 
 unwrap = \result, message ->
     when result is
