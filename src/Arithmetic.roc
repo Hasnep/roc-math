@@ -6,6 +6,7 @@ module [
     properDivisors,
     isPrime,
     primeFactors,
+    isPerfect,
 ]
 
 ## The [greatest common divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor) of two positive integers `a` and `b` is the largest integer that divides both `a` and `b`.
@@ -81,3 +82,11 @@ expect
 expect
     out = primeFactors 15
     out == [3, 5]
+
+## A [perfect number](https://en.wikipedia.org/wiki/Perfect_number) is a positive integer that is equal to the sum of its proper divisors, excluding itself.
+isPerfect : U64 -> Bool
+isPerfect = \n -> List.sum (properDivisors n) == n
+
+expect isPerfect 6
+expect isPerfect 7 |> Bool.not
+expect isPerfect 8128
