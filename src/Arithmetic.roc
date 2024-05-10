@@ -1,6 +1,10 @@
 module [
     gcd,
-    # lcm, divides, divisors, isPrime, primeFactors,
+    lcm,
+    divides,
+    divisors,
+    isPrime,
+    primeFactors,
 ]
 
 ## The [greatest common divisor](https://en.wikipedia.org/wiki/Greatest_common_divisor) of two positive integers `a` and `b` is the largest integer that divides both `a` and `b`.
