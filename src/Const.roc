@@ -1,6 +1,4 @@
-interface Const
-    exposes [pi, π, tau, τ, e, ℯ, goldenRatio, φ, sqrt2]
-    imports []
+module [pi, π, tau, τ, e, ℯ, goldenRatio, φ, sqrt2]
 
 ## The circle constant, defined as the ratio of a circle's diameter to the circle's circumference.
 ##

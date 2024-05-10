@@ -1,6 +1,6 @@
-interface Math
-    exposes [exp, reciprocal, naturalLog, sigmoid, relu]
-    imports [Const]
+module [exp, reciprocal, naturalLog, sigmoid, relu]
+
+import Const
 
 ## The natural exponential function, the inverse of the [naturalLog] function.
 ##

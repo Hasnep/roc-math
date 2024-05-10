@@ -487,6 +487,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1712163089,
+        "narHash": "sha256-Um+8kTIrC19vD4/lUCN9/cU9kcOsD1O1m+axJqQPyMM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "fd281bd6b7d3e32ddfa399853946f782553163b5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "fd281bd6b7d3e32ddfa399853946f782553163b5",
+        "type": "github"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -571,22 +587,21 @@
         "flake-compat": "flake-compat_6",
         "flake-utils": "flake-utils_4",
         "nixgl": "nixgl",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_3",
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1712575471,
-        "narHash": "sha256-qrU/XA0vaTtLKK7IpADiasmEY1Ebb/rP9r/Du5tBG0o=",
+        "lastModified": 1715215381,
+        "narHash": "sha256-vze2zVsuW5xAUjeqp2hoHG1xu+ISRLDTQOB+2cmfYo8=",
         "owner": "roc-lang",
         "repo": "roc",
-        "rev": "83904ec62b5a6354c2f79965bbb65bde8779bfa9",
+        "rev": "b8d9367029710e76205381b6bac36ef01c498604",
         "type": "github"
       },
       "original": {
         "owner": "roc-lang",
         "repo": "roc",
+        "rev": "b8d9367029710e76205381b6bac36ef01c498604",
         "type": "github"
       }
     },
