@@ -35,13 +35,8 @@ expect
 divides : I64, I64 -> Bool
 divides = \a, b -> b % a == 0
 
-expect
-    out = divides 3 9
-    out == Bool.true
-
-expect
-    out = divides 3 10
-    out == Bool.false
+expect divides 3 9
+expect divides 3 10 |> Bool.not
 
 ## The positive [divisors](https://en.wikipedia.org/wiki/Divisor) of a positive integer `n` are all the positive numbers that divide `n` with no remainder, including `n` itself.
 divisors : U64 -> List U64
@@ -56,17 +51,9 @@ expect
 isPrime : U64 -> Bool
 isPrime = \n -> divisors n == [1, n]
 
-expect
-    out = isPrime 1
-    out == Bool.false
-
-expect
-    out = isPrime 2
-    out == Bool.true
-
-expect
-    out = isPrime 3
-    out == Bool.true
+expect isPrime 1 |> Bool.not
+expect isPrime 2
+expect isPrime 3
 
 ## The [prime factors](https://en.wikipedia.org/wiki/Prime_factor) of a positive integer `n` are the prime numbers that divide `n` exactly.
 primeFactors : U64 -> List U64
