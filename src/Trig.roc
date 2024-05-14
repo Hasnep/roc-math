@@ -1,125 +1,226 @@
-module [sin, asin, cos, acos, tan, atan, sinh, cosh, tanh, coth, sech, csch]
+module [
+    sin,
+    cos,
+    tan,
+    asin,
+    acos,
+    atan,
+    sinh,
+    cosh,
+    tanh,
+    coth,
+    sech,
+    csch,
+]
 
+import Angle exposing [Angle]
 import Math exposing [exp]
+import Const
 
-## Trigonometric functions
+## The [sine](https://en.wikipedia.org/wiki/Sine_and_cosine) of an angle.
+sin : Angle -> F64
+sin = \angle ->
+    (Radians θ) = Angle.toRadians angle
+    Num.sin θ
 
-## The sine function of a an angle in radians.
+expect
+    out = sin (Radians (Const.pi / 2))
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = sin (Degrees 90.0)
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = sin (Turns 0.25)
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = sin (Gon 100.0)
+    out |> Num.isApproxEq 1.0 {}
+
+## The [cosine](https://en.wikipedia.org/wiki/Sine_and_cosine) of an angle.
+cos : Angle -> F64
+cos = \angle ->
+    (Radians θ) = Angle.toRadians angle
+    Num.cos θ
+
+expect
+    out = cos (Radians 0.0)
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = cos (Degrees 0.0)
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = cos (Turns 0.0)
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = cos (Gon 0.0)
+    out |> Num.isApproxEq 1.0 {}
+
+## The [tangent](https://en.wikipedia.org/wiki/Trigonometric_functions) of an angle.
+tan : Angle -> F64
+tan = \angle ->
+    (Radians θ) = Angle.toRadians angle
+    Num.tan θ
+
+expect
+    out = tan (Radians (Const.pi / 4))
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = tan (Degrees 45.0)
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = tan (Turns (1 / 8))
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = tan (Gon 50.0)
+    out |> Num.isApproxEq 1.0 {}
+
+# Inverse trigonometry functions
+
+## The [arcsine](https://en.wikipedia.org/wiki/Sine_and_cosine#Inverses) of a number.
 ##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Sine_and_cosine) for more information.
-sin : Frac a -> Frac a
-sin = Num.sin
+## Silently returns `NaN` if the input is outside the range `[-1, 1]`.
+asin : F64, [ToRadians, ToDegrees, ToTurns, ToGon] -> Angle
+asin = \x, convert ->
+    angle = Radians (Num.asin x)
+    when convert is
+        ToRadians -> angle
+        ToDegrees -> Angle.toDegrees angle
+        ToTurns -> Angle.toTurns angle
+        ToGon -> Angle.toGon angle
 
-# ## A version of the [sin] function that works with angles in degrees.
-# sinDeg : Frac a -> Frac a
-# sinDeg = \θ -> θ |> radiansToDegrees |> sin
+expect
+    out = asin 1.0 ToRadians
+    out |> Angle.isApproxEq (Radians (Const.pi / 2)) {}
 
-# expect
-#     out = sinDeg 90.0
-#     out |> Num.isApproxEq 1.0 {}
+expect
+    out = asin 1.0 ToDegrees
+    out |> Angle.isApproxEq (Degrees 90.0) {}
 
+expect
+    out = asin 1.0 ToTurns
+    out |> Angle.isApproxEq (Turns 0.25) {}
+
+expect
+    out = asin 1.0 ToGon
+    out |> Angle.isApproxEq (Gon 100.0) {}
+
+expect
+    out = asin 2.0 ToRadians
+    Angle.isNaN out
+
+## The [arccosine](https://en.wikipedia.org/wiki/Sine_and_cosine#Inverses) of a number.
 ##
-asin : Frac a -> Frac a
-asin = Num.asin
+## Silently returns `NaN` if the input is outside the range `[-1, 1]`.
+acos : F64, [ToRadians, ToDegrees, ToTurns, ToGon] -> Angle
+acos = \x, convert ->
+    angle = Radians (Num.acos x)
+    when convert is
+        ToRadians -> angle
+        ToDegrees -> Angle.toDegrees angle
+        ToTurns -> Angle.toTurns angle
+        ToGon -> Angle.toGon angle
 
-## The cosine function of a an angle in radians.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Sine_and_cosine) for more information.
-cos : Frac a -> Frac a
-cos = Num.cos
+expect
+    out = acos 1.0 ToRadians
+    out |> Angle.isApproxEq (Radians 0.0) {}
 
-# ## A version of the [cos] function that works with angles in degrees.
-# cosDeg : Frac a -> Frac a
-# cosDeg = \θ -> θ |> radiansToDegrees |> cos
+expect
+    out = acos 1.0 ToDegrees
+    out |> Angle.isApproxEq (Degrees 0.0) {}
 
-# expect
-#     out = cosDeg 0.0
-#     out |> Num.isApproxEq 1.0 {}
+expect
+    out = acos 1.0 ToTurns
+    out |> Angle.isApproxEq (Turns 0.0) {}
 
-##
-acos : Frac a -> Frac a
-acos = Num.acos
+expect
+    out = acos 1.0 ToGon
+    out |> Angle.isApproxEq (Gon 0.0) {}
 
-## The tangent function of a an angle in radians.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Trigonometric_functions) for more information.
-tan : Frac a -> Frac a
-tan = Num.tan
+expect
+    out = acos 2.0 ToRadians
+    Angle.isNaN out
 
-# ## A version of the [tan] function that works with angles in degrees.
-# tanDeg : Frac a -> Frac a
-# tanDeg = \θ -> θ |> radiansToDegrees |> tan
+## The [arctangent](https://en.wikipedia.org/wiki/Trigonometric_functions#Inverses) of a number.
+atan : F64, [ToRadians, ToDegrees, ToTurns, ToGon] -> Angle
+atan = \x, convert ->
+    angle = Radians (Num.atan x)
+    when convert is
+        ToRadians -> angle
+        ToDegrees -> Angle.toDegrees angle
+        ToTurns -> Angle.toTurns angle
+        ToGon -> Angle.toGon angle
 
-# expect
-#     out = tanDeg 45
-#     out |> Num.isApproxEq 1.0 {}
+expect
+    out = atan 1.0 ToRadians
+    out |> Angle.isApproxEq (Radians (Const.pi / 4)) {}
 
-##
-atan : Frac a -> Frac a
-atan = Num.atan
+expect
+    out = atan 1.0 ToDegrees
+    out |> Angle.isApproxEq (Degrees 45.0) {}
+
+expect
+    out = atan 1.0 ToTurns
+    out |> Angle.isApproxEq (Turns (1 / 8)) {}
+
+expect
+    out = atan 1.0 ToGon
+    out |> Angle.isApproxEq (Gon 50.0) {}
 
 # Hyperbolic trigonometry functions
 
-## The hyperbolic sine function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Hyperbolic_functions) for more information.
+## The [hyperbolic sine](https://en.wikipedia.org/wiki/Hyperbolic_functions).
 sinh : F64 -> F64
-sinh = \θ -> ((exp θ) - (exp (-θ))) / 2
+sinh = \x -> ((exp x) - (exp (-x))) / 2
 
 expect
     out = sinh (Num.log 2)
     out |> Num.isApproxEq (3 / 4) {}
 
-## The hyperbolic cosine function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Hyperbolic_functions) for more information.
+## The [hyperbolic cosine](https://en.wikipedia.org/wiki/Hyperbolic_functions).
 cosh : F64 -> F64
-cosh = \θ -> ((exp θ) + (exp (-θ))) / 2
+cosh = \x -> ((exp x) + (exp (-x))) / 2
 
 expect
-    out = cosh (Num.log 2)
+    out = cosh (Num.log (Num.toF64 2))
     out |> Num.isApproxEq (5 / 4) {}
 
-## The hyperbolic tangent function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Hyperbolic_functions) for more information.
+## The [hyperbolic tangent](https://en.wikipedia.org/wiki/Hyperbolic_functions).
 tanh : F64 -> F64
-tanh = \θ -> (exp (2.0 * θ) - 1) / (exp (2.0 * θ) + 1)
+tanh = \x -> (exp (2.0 * x) - 1) / (exp (2.0 * x) + 1)
 
 expect
-    out = tanh (Num.log 2)
+    out = tanh (Num.log (Num.toF64 2))
     out |> Num.isApproxEq (3 / 5) {}
 
-## The hyperbolic cotangent function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Hyperbolic_functions) for more information.
+## The [hyperbolic cotangent](https://en.wikipedia.org/wiki/Hyperbolic_functions).
 coth : F64 -> F64
-coth = \θ -> 1 / (tanh θ)
+coth = \x -> 1 / (tanh x)
 
 expect
-    out = coth (Num.log 2)
+    out = coth (Num.log (Num.toF64 2))
     out |> Num.isApproxEq (5 / 3) {}
 
-## The hyperbolic secant function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Hyperbolic_functions) for more information.
+## The [hyperbolic secant](https://en.wikipedia.org/wiki/Hyperbolic_functions).
 sech : F64 -> F64
-sech = \θ -> 1 / (cosh θ)
+sech = \x -> 1 / (cosh x)
 
 expect
-    out = sech (Num.log 2)
+    out = sech (Num.log (Num.toF64 2))
     out |> Num.isApproxEq (4 / 5) {}
 
-## The hyperbolic cosecant function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Hyperbolic_functions) for more information.
+## The [hyperbolic cosecant](https://en.wikipedia.org/wiki/Hyperbolic_functions).
 csch : F64 -> F64
-csch = \θ -> 1 / (sinh θ)
+csch = \x -> 1 / (sinh x)
 
 expect
-    out = csch (Num.log 2)
+    out = csch (Num.log (Num.toF64 2))
     out |> Num.isApproxEq (4 / 3) {}
-
-# # Utils
-# radiansToDegrees : Num * -> F64
-# radiansToDegrees = \θ -> θ |> Num.toF64 |> Num.div Const.pi |> Num.mul 180.0
