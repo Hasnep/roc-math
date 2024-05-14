@@ -10,35 +10,32 @@
     extra-trusted-substituters = "https://roc-lang.cachix.org";
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flake-parts,
-      roc,
-      ...
-    }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "aarch64-darwin"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "x86_64-linux"
-      ];
-      perSystem =
-        { inputs', pkgs, ... }:
-        {
-          devShells.default = pkgs.mkShell {
-            name = "roc-math";
-            packages = [
-              inputs'.roc.packages.cli
-              pkgs.just
-              pkgs.pre-commit
-              pkgs.nixfmt-rfc-style
-            ];
-            enterShell = "pre-commit install --overwrite";
-          };
-          formatter = pkgs.nixfmt-rfc-style;
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    flake-parts,
+    roc,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux"];
+      perSystem = {
+        inputs',
+        pkgs,
+        ...
+      }: {
+        devShells.default = pkgs.mkShell {
+          name = "roc-math";
+          packages = [
+            inputs'.roc.packages.cli
+            pkgs.just
+            pkgs.pre-commit
+            pkgs.alejandra
+              pkgs.fd
+          ];
+          enterShell = "pre-commit install --overwrite";
         };
+        formatter = pkgs.alejandra;
+      };
     };
 }
