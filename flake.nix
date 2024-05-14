@@ -6,7 +6,7 @@
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    roc.url = "github:roc-lang/roc?rev=b8d9367029710e76205381b6bac36ef01c498604";
+    roc.url = "github:roc-lang/roc?rev=e5ea6dc461710e4e24dedb64ae651686b500fc6a";
   };
 
   nixConfig = {
