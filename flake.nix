@@ -32,6 +32,7 @@
             pkgs.just
             pkgs.pre-commit
             pkgs.alejandra
+            pkgs.fd
           ];
           enterShell = "pre-commit install --overwrite";
         };
