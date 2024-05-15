@@ -1,8 +1,6 @@
 module [pi, π, tau, τ, e, ℯ, goldenRatio, φ, sqrt2]
 
-## The circle constant, defined as the ratio of a circle's diameter to the circle's circumference.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Pi) for more information.
+## The circle constant [π](https://en.wikipedia.org/wiki/Pi), defined as the ratio of a circle's diameter to the circle's circumference.
 pi : F64
 pi = Num.pi
 
@@ -14,9 +12,7 @@ expect
 π : F64
 π = Num.pi
 
-## The other circle constant, defined as the ratio of a circle's radius to the circle's circumference.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Tau_(mathematical_constant)) for more information.
+## The other circle constant [τ](https://en.wikipedia.org/wiki/Tau_(mathematical_constant)), defined as the ratio of a circle's radius to the circle's circumference.
 tau : F64
 tau = Num.tau
 
@@ -28,9 +24,7 @@ expect
 τ : F64
 τ = Num.tau
 
-## Euler's number, the base of the natural logarithm.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/E_(mathematical_constant)) for more information.
+## [Euler's number](https://en.wikipedia.org/wiki/E_(mathematical_constant)), the base of the natural logarithm.
 e : F64
 e = Num.e
 
@@ -38,9 +32,7 @@ e = Num.e
 ℯ : F64
 ℯ = Num.e
 
-## The golden ratio, defined as φ = (1 + √5)/2, and satisfies the quadratic equation φ² = φ + 1.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Golden_ratio) for more information.
+## [The golden ratio](https://en.wikipedia.org/wiki/Golden_ratio), defined as φ = (1 + √5)/2, and satisfies the quadratic equation φ² = φ + 1.
 goldenRatio : F64
 goldenRatio = (1 + (Num.sqrt 5)) / 2
 
@@ -48,9 +40,7 @@ goldenRatio = (1 + (Num.sqrt 5)) / 2
 φ : F64
 φ = goldenRatio
 
-## The square root of two (√2).
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Square_root_of_2) for more information.
+## The [square root of two](https://en.wikipedia.org/wiki/Square_root_of_2) (√2).
 sqrt2 : F64
 sqrt2 = Num.sqrt 2
 

@@ -2,9 +2,7 @@ module [exp, reciprocal, naturalLog, sigmoid, relu]
 
 import Const
 
-## The natural exponential function, the inverse of the [naturalLog] function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Exponential_function) for more information.
+## The [natural exponential function](https://en.wikipedia.org/wiki/Exponential_function), the inverse of the [naturalLog] function.
 exp : F64 -> F64
 exp = \x -> Num.pow Const.e x
 
@@ -12,9 +10,7 @@ expect
     out = exp 0.0
     out |> Num.isApproxEq 1.0 {}
 
-## The multiplicative inverse function, defined as x⁻¹ = 1/x.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Multiplicative_inverse) for more information.
+## The [multiplicative inverse function](https://en.wikipedia.org/wiki/Multiplicative_inverse), defined as x⁻¹ = 1/x.
 reciprocal : Num * -> F64
 reciprocal = \x -> 1 / (Num.toF64 x)
 
@@ -26,26 +22,21 @@ expect
 # logBase : Num *, Num * -> F64
 # logBase = \x,b -> x
 
-## The natural logarithm function, the inverse of the [exp] function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Natural_logarithm) for more information.
+## The [natural logarithm function](https://en.wikipedia.org/wiki/natural_logarithm), the inverse of the [exp] function.
+naturalLog : F64 -> F64
 naturalLog = Num.log
 
 # ## commonLog
 # commonLog
 # commonLog = \x -> logBase x 10
 
-## The standard logistic function, defined as S(x) = eˣ / (eˣ + 1).
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Logistic_function) for more information.
+## The [standard logistic function](https://en.wikipedia.org/wiki/Logistic_function), defined as S(x) = eˣ / (eˣ + 1).
 sigmoid : Num * -> F64
 sigmoid = \x ->
     expX = x |> Num.toF64 |> exp
     expX / (expX + 1)
 
-## The rectified linear unit activation function.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)) for more information.
+## The [rectified linear unit activation function](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)).
 relu : Num a -> Num a
 relu = \x -> if Num.isNegative x then 0 else x
 
