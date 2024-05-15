@@ -6,6 +6,7 @@ module [
     toGon,
     isApproxEq,
     isNaN,
+    toStr,
 ]
 
 import Const
@@ -122,3 +123,11 @@ expect isNaN (Turns (0.0 / 0.0))
 expect isNaN (Turns 0.0) |> Bool.not
 expect isNaN (Gon (0.0 / 0.0))
 expect isNaN (Gon 0.0) |> Bool.not
+
+toStr : Angle -> Str
+toStr = \angle ->
+    when angle is
+        Radians θ -> Num.toStr θ
+        Degrees θ -> Num.toStr θ
+        Turns θ -> Num.toStr θ
+        Gon θ -> Num.toStr θ
