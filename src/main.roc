@@ -5,6 +5,7 @@ package [
     Combinatorics,
     Complex,
     Const,
+    Rational,
     Stats,
     Trig,
 ] {}
