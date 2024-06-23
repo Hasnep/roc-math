@@ -10,8 +10,9 @@ module [
 
 import Utils
 
-## The arithmetic mean of a list `x` is defined as the sum of the elements of `x` divided by the number of elements in `x`.
-## https://en.wikipedia.org/wiki/Mean#Arithmetic_mean_(AM)
+## The [arithmetic mean](https://en.wikipedia.org/wiki/Mean#Arithmetic_mean_(AM)) of a list `x` is defined as the sum of the elements of `x` divided by the number of elements in `x`.
+##
+## For a version of this function that silently returns `NaN` when the input list is empty, see [meanUnchecked].
 mean : List (Num *) -> Result F64 [ListWasEmpty]
 mean = \x ->
     when x is
@@ -26,7 +27,7 @@ expect
     out = mean []
     Result.isErr out
 
-## An unchecked version of [mean] that silently returns `NaN` when the input list is empty.
+## A version of [mean] that silently returns `NaN` when the input list is empty.
 meanUnchecked : List (Num *) -> F64
 meanUnchecked = \x ->
     numerator = x |> List.sum |> Num.toF64
@@ -41,10 +42,9 @@ expect
     out = meanUnchecked []
     out |> Num.isNaN
 
-## The unbiased sample variance of a list of numbers.
-## Defined as S² = ∑(x - x̄)² / (n − 1).
+## The [unbiased sample variance](https://en.wikipedia.org/wiki/Variance#Unbiased_sample_variance) of a list of numbers.
 ##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Variance#Unbiased_sample_variance) for more information.
+## Defined as S² = ∑(x - x̄)² / (n − 1).
 variance : List (Num *) -> Result F64 [ListWasEmpty]
 variance = \x ->
     when x is
@@ -84,9 +84,7 @@ meanAndVariance = \x ->
             varX = varianceWithMean xNonEmpty muX
             Ok (muX, varX)
 
-## The corrected sample standard deviation of a list of numbers.
-##
-## See [Wikipedia](https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation) for more information.
+## The [corrected sample standard deviation](https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation) of a list of numbers.
 standardDeviation : List (Num *) -> Result F64 [ListWasEmpty]
 standardDeviation = \x -> x |> variance |> Result.map Num.sqrt
 
@@ -102,7 +100,7 @@ standardDeviation = \x -> x |> variance |> Result.map Num.sqrt
 # ## quantiles
 # # quantiles = \x -> x
 
-## The number that divides a list of numbers into a lower half and a higher half.
+## The [median](https://en.wikipedia.org/wiki/Median) of a list of numbers.
 median : List (Num *) -> F64
 median = \x ->
     xLength = List.len x
