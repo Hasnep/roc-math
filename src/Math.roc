@@ -1,4 +1,4 @@
-module [exp, reciprocal, naturalLog, sigmoid, relu]
+module [exp, reciprocal, naturalLog, sigmoid, relu, sign, signInt]
 
 import Const
 
@@ -43,3 +43,43 @@ relu = \x -> if Num.isNegative x then 0 else x
 expect
     out = [-2, -1, 0, 1, 2] |> List.map relu
     out == [0, 0, 0, 1, 2]
+
+## A variant of the [mathematical sign function](https://en.wikipedia.org/wiki/Sign_function) that handles `NaN` and infinity values.
+sign : F64 -> [PositiveNumber, NegativeNumber, Zero, NaN, PositiveInfinity, NegativeInfinity]
+sign = \x ->
+    if Num.isNaN x then
+        NaN
+    else if Num.isFinite x then
+        if Num.isZero x then
+            Zero
+        else if Num.isPositive x then
+            PositiveNumber
+        else
+            NegativeNumber
+    else if Num.isPositive x then
+        PositiveInfinity
+    else
+        NegativeInfinity
+
+expect sign 1 == PositiveNumber
+expect sign -1 == NegativeNumber
+expect sign 0 == Zero
+expect sign Num.nanF64 == NaN
+expect sign Num.infinityF64 == PositiveInfinity
+expect sign (-Num.infinityF64) == NegativeInfinity
+
+## The [sign function](https://en.wikipedia.org/wiki/Sign_function) for integers.
+##
+## For getting the sign of a floating-point number, use the [sign] function instead.
+signInt : Int * -> [PositiveNumber, NegativeNumber, Zero]
+signInt = \x ->
+    if Num.isZero x then
+        Zero
+    else if Num.isPositive x then
+        PositiveNumber
+    else
+        NegativeNumber
+
+expect signInt 1 == PositiveNumber
+expect signInt -1 == NegativeNumber
+expect signInt 0 == Zero
