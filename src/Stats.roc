@@ -9,6 +9,7 @@ module [
     standardDeviation,
     median,
     medianUnchecked,
+    range,
 ]
 
 import Utils
