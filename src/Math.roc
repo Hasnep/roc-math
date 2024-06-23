@@ -36,7 +36,7 @@ sigmoid = \x ->
     expX = x |> Num.toF64 |> exp
     expX / (expX + 1)
 
-## The [rectified linear unit activation function](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)).
+## The [rectified linear unit activation](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)) (ReLU) function.
 relu : Num a -> Num a
 relu = \x -> if Num.isNegative x then 0 else x
 
