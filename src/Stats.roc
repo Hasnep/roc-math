@@ -6,6 +6,7 @@ module [
     meanAndVariance,
     standardDeviation,
     median,
+    medianUnchecked,
 ]
 
 import Utils
@@ -101,10 +102,31 @@ standardDeviation = \x -> x |> variance |> Result.map Num.sqrt
 # # quantiles = \x -> x
 
 ## The [median](https://en.wikipedia.org/wiki/Median) of a list of numbers.
-median : List (Num *) -> F64
+median : List (Num *) -> Result F64 [ListWasEmpty]
 median = \x ->
+    when x is
+        [] -> Err ListWasEmpty
+        xNonEmpty -> Ok (medianUnchecked xNonEmpty)
+
+expect
+    out = median [5, 4, 3, 2, 1]
+    out |> Result.map (\x -> x |> Num.isApproxEq 3.0 {}) |> Result.withDefault Bool.false
+
+expect
+    out = median [1, 2, 3, 4]
+    out |> Result.map (\x -> x |> Num.isApproxEq 2.5 {}) |> Result.withDefault Bool.false
+
+expect
+    out = median []
+    Result.isErr out
+
+## A version of the [median] function that silently returns `NaN` when the input list is empty.
+medianUnchecked : List (Num *) -> F64
+medianUnchecked = \x ->
     xLength = List.len x
-    if (xLength % 2) == 0 then
+    if xLength == 0 then
+        Num.nanF64
+    else if (xLength % 2) == 0 then
         # Even length
         x
         |> List.sortAsc
@@ -121,12 +143,16 @@ median = \x ->
         |> Num.toF64
 
 expect
-    out = median [5, 4, 3, 2, 1]
+    out = medianUnchecked [5, 4, 3, 2, 1]
     out |> Num.isApproxEq 3.0 {}
 
 expect
-    out = median [1, 2, 3, 4]
+    out = medianUnchecked [1, 2, 3, 4]
     out |> Num.isApproxEq 2.5 {}
+
+expect
+    out = medianUnchecked []
+    Num.isNaN out
 
 ## The difference between the maximum and minimum values in a list.
 range : List (Num a) -> Result (Num a) [ListWasEmpty]
