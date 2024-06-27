@@ -7,6 +7,9 @@ module [
     meanAndVariance,
     meanAndVarianceUnchecked,
     standardDeviation,
+    nthSampleMoment,
+    nthSampleMomentUnchecked,
+    nthSampleMomentWithMean,
     median,
     medianUnchecked,
     range,
@@ -120,17 +123,44 @@ meanAndVarianceUnchecked = \x ->
 standardDeviation : List (Num *) -> Result F64 [ListWasEmpty]
 standardDeviation = \x -> x |> variance |> Result.map Num.sqrt
 
-# ## skew
-# skew = \x -> x
-#
-# ## kurtosis
-# kurtosis = \x -> x
-#
-# ## covariance
-# covariance = \x -> x
-#
-# ## quantiles
-# # quantiles = \x -> x
+## The [n-th sample moment](https://en.wikipedia.org/wiki/Moment_(mathematics)#Sample_moments) of a list of numbers.
+nthSampleMoment : List (Num *), U64 -> Result F64 [ListWasEmpty]
+nthSampleMoment = \x, n ->
+    when x is
+        [] -> Err ListWasEmpty
+        xNonEmpty -> Ok (nthSampleMomentUnchecked xNonEmpty n)
+
+expect
+    out = nthSampleMoment [1, 2, 3, 4] 2
+    out |> Result.map (\x -> x |> Num.isApproxEq 5.0 {}) |> Result.withDefault Bool.false
+
+expect
+    out = nthSampleMoment [] 2
+    Result.isErr out
+
+## The [n-th sample moment](https://en.wikipedia.org/wiki/Moment_(mathematics)#Sample_moments) of a list of numbers that silently returns NaN when the input list is empty.
+nthSampleMomentUnchecked : List (Num *), U64 -> F64
+nthSampleMomentUnchecked = \x, n ->
+    when x is
+        [] -> Num.nanF64
+        _ -> nthSampleMomentWithMean x n (meanUnchecked x)
+
+expect
+    out = nthSampleMomentUnchecked [1, 2, 3, 4] 2
+    out |> Num.isApproxEq 5.0 {}
+
+expect
+    out = nthSampleMomentUnchecked [] 2
+    out |> Num.isNaN
+
+## The [n-th sample moment](https://en.wikipedia.org/wiki/Moment_(mathematics)#Sample_moments) of a list of numbers, given a pre-calculated mean.
+nthSampleMomentWithMean : List (Num *), U64, F64 -> F64
+nthSampleMomentWithMean = \x, n, mu ->
+    x
+    |> List.map Num.toFrac
+    |> List.map (\xᵢ -> xᵢ - mu)
+    |> List.map (\xᵢ -> Num.pow xᵢ (Num.toFrac n))
+    |> List.sum
 
 ## The [median](https://en.wikipedia.org/wiki/Median) of a list of numbers.
 median : List (Num *) -> Result F64 [ListWasEmpty]
