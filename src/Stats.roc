@@ -2,8 +2,10 @@ module [
     mean,
     meanUnchecked,
     variance,
+    varianceUnchecked,
     varianceWithMean,
     meanAndVariance,
+    meanAndVarianceUnchecked,
     standardDeviation,
     median,
     medianUnchecked,
@@ -50,15 +52,38 @@ variance : List (Num *) -> Result F64 [ListWasEmpty]
 variance = \x ->
     when x is
         [] -> Err ListWasEmpty
-        xNonEmpty -> Ok (varianceWithMean xNonEmpty (meanUnchecked xNonEmpty))
+        xNonEmpty -> Ok (varianceUnchecked xNonEmpty)
 
 expect
     out = variance [1, 2, 3]
     out |> Result.map (\x -> x |> Num.isApproxEq 1.0 {}) |> Result.withDefault Bool.false
 
 expect
+    out = variance (List.range { start: At 1, end: At 10 })
+    out |> Result.map (\x -> x |> Num.isApproxEq 9.166666666666666 {}) |> Result.withDefault Bool.false
+
+expect
     out = variance []
     out |> Result.isErr
+
+## A version of the [variance] function that silently returns `NaN` when the input list is empty.
+varianceUnchecked : List (Num *) -> F64
+varianceUnchecked = \x ->
+    when x is
+        [] -> Num.nanF64
+        _ -> varianceWithMean x (meanUnchecked x)
+
+expect
+    out = varianceUnchecked [1, 2, 3]
+    out |> Num.isApproxEq 1.0 {}
+
+expect
+    out = varianceUnchecked (List.range { start: At 1, end: At 10 })
+    out |> Num.isApproxEq 9.166666666666666 {}
+
+expect
+    out = varianceUnchecked []
+    out |> Num.isNaN
 
 ## A version of the [variance] function that uses a pre-calculated mean value for efficiency.
 varianceWithMean : List (Num *), F64 -> F64
@@ -80,10 +105,15 @@ meanAndVariance : List (Num *) -> Result (F64, F64) [ListWasEmpty]
 meanAndVariance = \x ->
     when x is
         [] -> Err ListWasEmpty
-        xNonEmpty ->
-            muX = meanUnchecked x
-            varX = varianceWithMean xNonEmpty muX
-            Ok (muX, varX)
+        xNonEmpty -> Ok (meanAndVarianceUnchecked xNonEmpty)
+
+## A function that calculates both the [mean] and [variance] of a list at the same time.
+## This is more efficient than calculating both values separately.
+meanAndVarianceUnchecked : List (Num *) -> (F64, F64)
+meanAndVarianceUnchecked = \x ->
+    mu = meanUnchecked x
+    var = varianceWithMean x mu
+    (mu, var)
 
 ## The [corrected sample standard deviation](https://en.wikipedia.org/wiki/Standard_deviation#Corrected_sample_standard_deviation) of a list of numbers.
 standardDeviation : List (Num *) -> Result F64 [ListWasEmpty]
