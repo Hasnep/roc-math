@@ -26,12 +26,7 @@
         "x86_64-linux"
       ];
       perSystem =
-        {
-          inputs',
-          pkgs,
-          system,
-          ...
-        }:
+        { inputs', pkgs, ... }:
         {
           devShells.default = pkgs.mkShell {
             name = "roc-math";
