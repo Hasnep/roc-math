@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    roc.url = "github:roc-lang/roc?rev=03eadc2e0f9cecc83ab2c24cb29decec59d58d48";
+    roc.url = "github:roc-lang/roc?rev=44d76d78a13e6b6b4adea075a93b3b46989704f2";
   };
 
   nixConfig = {
@@ -26,12 +26,7 @@
         "x86_64-linux"
       ];
       perSystem =
-        {
-          inputs',
-          pkgs,
-          system,
-          ...
-        }:
+        { inputs', pkgs, ... }:
         {
           devShells.default = pkgs.mkShell {
             name = "roc-math";
