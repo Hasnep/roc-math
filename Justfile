@@ -1,4 +1,4 @@
-default: format check test
+default: format check test docs examples
 
 format:
     roc format
