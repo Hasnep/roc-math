@@ -29,6 +29,7 @@
             pkgs.nodePackages.prettier
             pkgs.pre-commit
             pkgs.python312Packages.pre-commit-hooks
+            pkgs.ratchet
           ];
           enterShell = "pre-commit install --overwrite";
         };
