@@ -1,12 +1,12 @@
 module [
     Angle,
-    toRadians,
-    toDegrees,
-    toTurns,
-    toGon,
-    isApproxEq,
-    isNaN,
-    toStr,
+    to_radians,
+    to_degrees,
+    to_turns,
+    to_gon,
+    is_approx_eq,
+    is_nan,
+    to_str,
 ]
 
 import Const
@@ -15,119 +15,119 @@ import Const
 Angle : [Radians F64, Degrees F64, Turns F64, Gon F64]
 
 ## Convert an angle to radians.
-toRadians : Angle -> [Radians F64]
-toRadians = \angle ->
+to_radians : Angle -> [Radians F64]
+to_radians = |angle|
     when angle is
-        Radians θ -> Radians θ
-        Degrees θ -> Radians ((Const.pi * θ) / 180)
-        Turns θ -> Radians (Const.tau * θ)
-        Gon θ -> Radians ((Const.pi * θ) / 200)
+        Radians(θ) -> Radians(θ)
+        Degrees(θ) -> Radians(((Const.pi * θ) / 180))
+        Turns(θ) -> Radians((Const.tau * θ))
+        Gon(θ) -> Radians(((Const.pi * θ) / 200))
 
 expect
-    (Radians out) = toRadians (Radians Const.pi)
-    out |> Num.isApproxEq Const.pi {}
+    Radians(out) = to_radians(Radians(Const.pi))
+    out |> Num.is_approx_eq(Const.pi, {})
 
 expect
-    (Radians out) = toRadians (Degrees 180f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq Const.pi {}
+    Radians(out) = to_radians(Degrees(180f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(Const.pi, {})
 
 expect
-    (Radians out) = toRadians (Turns 0.5f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq Const.pi {}
+    Radians(out) = to_radians(Turns(0.5f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(Const.pi, {})
 
 expect
-    (Radians out) = toRadians (Gon 200f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq Const.pi {}
+    Radians(out) = to_radians(Gon(200f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(Const.pi, {})
 
 ## Convert an angle to degrees.
-toDegrees : Angle -> [Degrees F64]
-toDegrees = \angle ->
+to_degrees : Angle -> [Degrees F64]
+to_degrees = |angle|
     when angle is
-        Radians θ -> Degrees (180 * θ / Const.pi)
-        Degrees θ -> Degrees θ
-        Turns θ -> Degrees (360 * θ)
-        Gon θ -> Degrees (180 * θ / 200)
+        Radians(θ) -> Degrees((180 * θ / Const.pi))
+        Degrees(θ) -> Degrees(θ)
+        Turns(θ) -> Degrees((360 * θ))
+        Gon(θ) -> Degrees((180 * θ / 200))
 
 expect
-    (Degrees out) = toDegrees (Radians Const.pi)
-    out |> Num.isApproxEq 180f64 {} # TODO: Remove explicit F64 type
+    Degrees(out) = to_degrees(Radians(Const.pi))
+    out |> Num.is_approx_eq(180f64, {}) # TODO: Remove explicit F64 type
 
 expect
-    (Degrees out) = toDegrees (Degrees 180f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq 180f64 {} # TODO: Remove explicit F64 type
+    Degrees(out) = to_degrees(Degrees(180f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(180f64, {}) # TODO: Remove explicit F64 type
 
 expect
-    (Degrees out) = toDegrees (Turns 0.5f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq 180f64 {} # TODO: Remove explicit F64 type
+    Degrees(out) = to_degrees(Turns(0.5f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(180f64, {}) # TODO: Remove explicit F64 type
 
 expect
-    (Degrees out) = toDegrees (Gon 200f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq 180f64 {} # TODO: Remove explicit F64 type
+    Degrees(out) = to_degrees(Gon(200f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(180f64, {}) # TODO: Remove explicit F64 type
 
 ## Convert an angle to turns.
-toTurns : Angle -> [Turns F64]
-toTurns = \angle ->
+to_turns : Angle -> [Turns F64]
+to_turns = |angle|
     when angle is
-        Radians θ -> Turns (θ / Const.tau)
-        Degrees θ -> Turns (θ / 360)
-        Turns θ -> Turns θ
-        Gon θ -> Turns (θ / 400)
+        Radians(θ) -> Turns((θ / Const.tau))
+        Degrees(θ) -> Turns((θ / 360))
+        Turns(θ) -> Turns(θ)
+        Gon(θ) -> Turns((θ / 400))
 
 expect
-    (Turns out) = toTurns (Radians Const.pi)
-    out |> Num.isApproxEq 0.5f64 {} # TODO: Remove explicit F64 type
+    Turns(out) = to_turns(Radians(Const.pi))
+    out |> Num.is_approx_eq(0.5f64, {}) # TODO: Remove explicit F64 type
 
 expect
-    (Turns out) = toTurns (Degrees 180f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq 0.5f64 {} # TODO: Remove explicit F64 type
+    Turns(out) = to_turns(Degrees(180f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(0.5f64, {}) # TODO: Remove explicit F64 type
 
 expect
-    (Turns out) = toTurns (Turns 0.5f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq 0.5f64 {} # TODO: Remove explicit F64 type
+    Turns(out) = to_turns(Turns(0.5f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(0.5f64, {}) # TODO: Remove explicit F64 type
 
 expect
-    (Turns out) = toTurns (Gon 200f64) # TODO: Remove explicit F64 type
-    out |> Num.isApproxEq 0.5f64 {} # TODO: Remove explicit F64 type
+    Turns(out) = to_turns(Gon(200f64)) # TODO: Remove explicit F64 type
+    out |> Num.is_approx_eq(0.5f64, {}) # TODO: Remove explicit F64 type
 
 ## Convert an angle to gon.
-toGon : Angle -> [Gon F64]
-toGon = \angle ->
+to_gon : Angle -> [Gon F64]
+to_gon = |angle|
     when angle is
-        Radians θ -> Gon (200 * θ / Const.pi)
-        Degrees θ -> Gon (200 * θ / 180)
-        Turns θ -> Gon (400 * θ)
-        Gon θ -> Gon θ
+        Radians(θ) -> Gon((200 * θ / Const.pi))
+        Degrees(θ) -> Gon((200 * θ / 180))
+        Turns(θ) -> Gon((400 * θ))
+        Gon(θ) -> Gon(θ)
 
 ## Check if two angles are approximately equal.
 ##
 ## The tolerance values apply to the angles when converted to radians.
-isApproxEq : Angle, Angle, { rtol ? F64, atol ? F64 } -> Bool
-isApproxEq = \a, b, { rtol ? 0.00001, atol ? 0.00000001 } ->
-    (Radians aRadians) = toRadians a
-    (Radians bRadians) = toRadians b
-    Num.isApproxEq aRadians bRadians { rtol, atol }
+is_approx_eq : Angle, Angle, { rtol ?? F64, atol ?? F64 } -> Bool
+is_approx_eq = |a, b, { rtol ?? 0.00001, atol ?? 0.00000001 }|
+    Radians(a_radians) = to_radians(a)
+    Radians(b_radians) = to_radians(b)
+    Num.is_approx_eq(a_radians, b_radians, { rtol, atol })
 
-isNaN : Angle -> Bool
-isNaN = \angle ->
+is_nan : Angle -> Bool
+is_nan = |angle|
     when angle is
-        Radians θ -> Num.isNaN θ
-        Degrees θ -> Num.isNaN θ
-        Turns θ -> Num.isNaN θ
-        Gon θ -> Num.isNaN θ
+        Radians(θ) -> Num.is_nan(θ)
+        Degrees(θ) -> Num.is_nan(θ)
+        Turns(θ) -> Num.is_nan(θ)
+        Gon(θ) -> Num.is_nan(θ)
 
-expect isNaN (Radians (0.0 / 0.0))
-expect isNaN (Radians 0.0) |> Bool.not
-expect isNaN (Degrees (0.0 / 0.0))
-expect isNaN (Degrees 0.0) |> Bool.not
-expect isNaN (Turns (0.0 / 0.0))
-expect isNaN (Turns 0.0) |> Bool.not
-expect isNaN (Gon (0.0 / 0.0))
-expect isNaN (Gon 0.0) |> Bool.not
+expect is_nan(Radians((0.0 / 0.0)))
+expect is_nan(Radians(0.0)) |> Bool.not
+expect is_nan(Degrees((0.0 / 0.0)))
+expect is_nan(Degrees(0.0)) |> Bool.not
+expect is_nan(Turns((0.0 / 0.0)))
+expect is_nan(Turns(0.0)) |> Bool.not
+expect is_nan(Gon((0.0 / 0.0)))
+expect is_nan(Gon(0.0)) |> Bool.not
 
-toStr : Angle -> Str
-toStr = \angle ->
+to_str : Angle -> Str
+to_str = |angle|
     when angle is
-        Radians θ -> Num.toStr θ
-        Degrees θ -> Num.toStr θ
-        Turns θ -> Num.toStr θ
-        Gon θ -> Num.toStr θ
+        Radians(θ) -> Num.to_str(θ)
+        Degrees(θ) -> Num.to_str(θ)
+        Turns(θ) -> Num.to_str(θ)
+        Gon(θ) -> Num.to_str(θ)

@@ -18,7 +18,7 @@ jobs:
       - name: Install Roc
         uses: hasnep/setup-roc@main
         with:
-          roc-version: nightly
+          roc-version: 0.0.0-alpha2-rolling
       - name: Bundle and release the library
         uses: hasnep/bundle-roc-library@v0.1.0
         with:
