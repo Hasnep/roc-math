@@ -10,13 +10,7 @@
     extra-trusted-substituters = "https://roc-lang.cachix.org";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    flake-parts,
-    roc,
-    ...
-  }:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux"];
       perSystem = {
@@ -28,10 +22,13 @@
           name = "roc-math";
           packages = [
             inputs'.roc.packages.cli
-            pkgs.just
-            pkgs.pre-commit
+            pkgs.actionlint
             pkgs.alejandra
             pkgs.fd
+            pkgs.just
+            pkgs.nodePackages.prettier
+            pkgs.pre-commit
+            pkgs.python312Packages.pre-commit-hooks
           ];
           enterShell = "pre-commit install --overwrite";
         };
