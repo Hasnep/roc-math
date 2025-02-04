@@ -22,6 +22,6 @@ jobs:
       - name: Install Roc
         uses: hasnep/setup-roc@main
         with:
-          roc-version: nightly
+          roc-version: 0.0.0-alpha2-rolling
       - name: Test the library
         run: roc test src/main.roc

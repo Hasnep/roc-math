@@ -1,8 +1,8 @@
 module [unwrap, square]
 
-unwrap = \result, message ->
+unwrap = |result, message|
     when result is
-        Ok x -> x
-        Err _ -> crash message
+        Ok(x) -> x
+        Err(_) -> crash(message)
 
-square = \x -> x |> Num.toF64 |> Num.pow 2
+square = |x| x |> Num.to_f64 |> Num.pow(2)
